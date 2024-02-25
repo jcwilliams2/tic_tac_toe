@@ -33,7 +33,6 @@ def printBoard(board):
         if(row_count < 3):
             print("___________")
 
-    print('\n')
 
 class Player:
     def __init__(self, name):
@@ -50,11 +49,61 @@ class Computer:
             self.mark = 'X'
         else:
             self.mark = 'O'
+
+    def turn_position(self, game):
+        possible = 0
+        while possible not in game.playable:
+            possible = random.randint(game.playable[0], game.playable[-1])
+        return possible
+        
+
         
 #Game class keeps track of data from gameplay#       
 class Game:
     def __init__(self, board):
         self.board = board
+        self.playable = [1,2,3,4,5,6,7,8,9]
+        self.turnCount = 0
+
+    def turn (self, place, mark):
+        place_int = int(place)
+        if place_int in self.playable:
+            if place_int == 1:
+                self.board[0][0] = mark
+                self.playable.pop(0)
+            elif place_int == 2:
+                self.board[0][1] = mark
+                self.playable.pop(1)
+            elif place_int == 3:
+                self.board[0][2] = mark
+                self.playable.pop(2)
+            elif place_int == 4:
+                self.board[1][0] = mark
+                self.playable.pop(3)
+            elif place_int == 5:
+                self.board[1][1] = mark
+                self.playable.pop(4)
+            elif place_int == 6:
+                self.board[1][2] = mark
+                self.playable.pop(5)
+            elif place_int == 7:
+                self.board[2][0] = mark
+                self.playable.pop(6)
+            elif place_int == 8:
+                self.board[2][1] = mark
+                self.playable.pop(7)
+            else:
+                self.board[2][2] = mark
+                self.playable.pop(-1)
+
+            printBoard(self.board)
+            self.turnCount += 1
+            #print(self.playable)
+            return True
+        else:
+            print("Invalid move. Try Again.")
+            return False
+        
 
 start = False
 
@@ -69,8 +118,16 @@ if(answer.lower() == 'y' or answer.lower() == 'yes'):
 
     print(f'\nHello {player.name}!\nTo begin, you are "{player.mark}".')
     print('On your turn input the number in the area you would like to play.\nGood luck and here is your board!')
+    position = input("Your Turn: ")
+    game.turn(position, player.mark)
+    cp_turn = cp.turn_position(game)
+    game.turn(cp_turn, cp.mark)
 
-    printBoard(game.board)
+
+
+    #printBoard(game.board)
+
+
     
 
 else:
