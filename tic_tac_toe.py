@@ -4,10 +4,12 @@ empty_board = [["-", "-", "-"],
                ["-", "-", "-"],
                ["-", "-", "-"]]
 
+#initial gameboard#
 placement_board = [[1, 2, 3],
                    [4, 5, 6],
                    [7, 8, 9]]
 
+#generate player's mark for gameplay#
 def randomMark():
     num = random.randint(1,2)
     if num == 1:
@@ -153,7 +155,6 @@ class Game:
             self.turnCount += 1
             if(self.turnCount > 4):
                 self.check_win(mark)
-            #print(self.playable)
             return True
         else:
             print("Invalid move. Try Again.")
@@ -217,24 +218,7 @@ if(answer.lower() == 'y' or answer.lower() == 'yes'):
             print(f'Game {game.gameCount} is ready to begin!')
         else:
             game.play = False
-            print("Thanks for playing!")
-            
-
-
-    #printBoard(game.board)
-
-
-    
+            print("Thanks for playing!")    
 
 else:
     print("Maybe another time. Goodbye.")
-
-#printBoard(placement_board)
-
-#player1 = Player('playerone')
-#com = Computer(player1)
-
-
-
-
-
