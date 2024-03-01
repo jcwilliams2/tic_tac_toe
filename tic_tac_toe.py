@@ -41,6 +41,7 @@ class Player:
         else:
             self.name = "Player1"
         self.mark = randomMark()
+        self.wins = 0
     
     def __repr__(self):
         return self.name
@@ -52,6 +53,7 @@ class Computer:
             self.mark = 'X'
         else:
             self.mark = 'O'
+        self.wins = 0
 
     def __repr__(self):
         return self.name
@@ -67,12 +69,14 @@ class Computer:
 #Game class keeps track of data from gameplay#       
 class Game:
     def __init__(self, board, player, computer):
+        self.play = True
         self.board = board
         self.player = player
         self.computer = computer
         self.playable = [1,2,3,4,5,6,7,8,9]
         self.game_end = False
         self.turnCount = 0
+        self.gameCount = 1
 
     def win(self):
         if self.board[0][0] == self.board[0][1] == self.board[0][2]:
@@ -100,8 +104,10 @@ class Game:
             self.game_end = True
             if mark == self.player.mark:
                 print(f'{self.player} has won the game.')
+                self.player.wins += 1
             else:
-                print(f'{self.computer} haswon the game.')
+                print(f'{self.computer} has won the game.')
+                self.computer.wins += 1
         elif self.turnCount == 9:
             self.game_end = True
             print("Draw. Game Over.")
@@ -147,6 +153,14 @@ class Game:
             print("Invalid move. Try Again.")
             return False
         
+    def reset(self):
+        self.board = [[1, 2, 3],
+                      [4, 5, 6],
+                      [7, 8, 9]]
+        self.playable = [1,2,3,4,5,6,7,8,9]
+        self.game_end = False
+        self.turnCount = 0
+        self.gameCount += 1
 
 start = False
 
@@ -161,35 +175,44 @@ if(answer.lower() == 'y' or answer.lower() == 'yes'):
 
     print(f'\nHello {player.name}!\nTo begin, you are "{player.mark}".')
     print('On your turn input the number in the area you would like to play.\nGood luck and here is your board!')
-    position = input("Your turn: ")
-    game.turn(position, player.mark)
-    cp_turn = cp.turn_position(game)
-    game.turn(cp_turn, cp.mark)
-
-    position = input("\nYour turn: ")
-    game.turn(position, player.mark)
-    cp_turn = cp.turn_position(game)
-    game.turn(cp_turn, cp.mark)
-
-    position = input("\nYour turn: ")
-    game.turn(position, player.mark)
-
-    if game.game_end == False:
+    while(game.play):
+        position = input("Your turn: ")
+        game.turn(position, player.mark)
         cp_turn = cp.turn_position(game)
         game.turn(cp_turn, cp.mark)
 
-    if game.game_end == False:
         position = input("\nYour turn: ")
         game.turn(position, player.mark)
+        cp_turn = cp.turn_position(game)
+        game.turn(cp_turn, cp.mark)
+
+        position = input("\nYour turn: ")
+        game.turn(position, player.mark)
+
+        if game.game_end == False:
+            cp_turn = cp.turn_position(game)
+            game.turn(cp_turn, cp.mark)
+
+        if game.game_end == False:
+            position = input("\nYour turn: ")
+            game.turn(position, player.mark)
     
-    if game.game_end == False:
-        cp_turn = cp.turn_position(game)
-        game.turn(cp_turn, cp.mark)
+        if game.game_end == False:
+            cp_turn = cp.turn_position(game)
+            game.turn(cp_turn, cp.mark)
 
-    if game.game_end == False:
-        position = input("\nYour turn: ")
-        game.turn(position, player.mark)
+        if game.game_end == False:
+            position = input("\nYour turn: ")
+            game.turn(position, player.mark)
 
+        play_again = input("Would you like to play again? y/n ")
+        if play_again.lower() == 'y' or play_again.lower() == 'yes':
+            game.reset()
+            print(f'Game {game.gameCount} is ready to begin!')
+        else:
+            game.play = False
+            print("Thanks for playing!")
+            
 
 
     #printBoard(game.board)
