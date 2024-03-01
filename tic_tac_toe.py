@@ -51,7 +51,9 @@ class Player:
     def turn_position(self, game):
         position = 0
         while position not in game.playable:
-            position = int(input("Your turn: "))
+            pos = input("Your turn: ")
+            if pos != "":
+                position = int(pos)
         return position
 
 class Computer:
@@ -183,6 +185,8 @@ if(answer.lower() == 'y' or answer.lower() == 'yes'):
     print(f'\nHello {player.name}!\nTo begin, you are "{player.mark}".')
     print('On your turn input the number in the area you would like to play.\nGood luck and here is your board!')
     while(game.play):
+        print("\n")
+        printBoard(game.board)
         position = player.turn_position(game)
         game.turn(position, player.mark)
         cp_turn = cp.turn_position(game)
