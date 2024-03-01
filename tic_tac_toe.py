@@ -45,6 +45,12 @@ class Player:
     
     def __repr__(self):
         return self.name
+    
+    def turn_position(self, game):
+        position = 0
+        while position not in game.playable:
+            position = int(input("Your turn: "))
+        return position
 
 class Computer:
     def __init__(self, player):
@@ -176,17 +182,17 @@ if(answer.lower() == 'y' or answer.lower() == 'yes'):
     print(f'\nHello {player.name}!\nTo begin, you are "{player.mark}".')
     print('On your turn input the number in the area you would like to play.\nGood luck and here is your board!')
     while(game.play):
-        position = input("Your turn: ")
+        position = player.turn_position(game)
         game.turn(position, player.mark)
         cp_turn = cp.turn_position(game)
         game.turn(cp_turn, cp.mark)
 
-        position = input("\nYour turn: ")
+        position = player.turn_position(game)
         game.turn(position, player.mark)
         cp_turn = cp.turn_position(game)
         game.turn(cp_turn, cp.mark)
 
-        position = input("\nYour turn: ")
+        position = player.turn_position(game)
         game.turn(position, player.mark)
 
         if game.game_end == False:
@@ -194,7 +200,7 @@ if(answer.lower() == 'y' or answer.lower() == 'yes'):
             game.turn(cp_turn, cp.mark)
 
         if game.game_end == False:
-            position = input("\nYour turn: ")
+            position = player.turn_position(game)
             game.turn(position, player.mark)
     
         if game.game_end == False:
@@ -202,7 +208,7 @@ if(answer.lower() == 'y' or answer.lower() == 'yes'):
             game.turn(cp_turn, cp.mark)
 
         if game.game_end == False:
-            position = input("\nYour turn: ")
+            position = player.turn_position(game)
             game.turn(position, player.mark)
 
         play_again = input("Would you like to play again? y/n ")
